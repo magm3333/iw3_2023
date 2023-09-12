@@ -19,12 +19,14 @@ public class BackendApplication implements CommandLineRunner {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	
+	/*
 	@Autowired
 	private IProductBusiness productBusiness;
+	*/
 	
 	@Override
 	public void run(String... args) throws Exception {
+		/*
 		try {
 			Product p = productBusiness.load(1);
 			log.debug("Producto {}",p);
@@ -50,7 +52,7 @@ public class BackendApplication implements CommandLineRunner {
 		for(Product p: lista)
 			log.trace("{}",p);
 		
-		
+		*/
 	}
 
 }
