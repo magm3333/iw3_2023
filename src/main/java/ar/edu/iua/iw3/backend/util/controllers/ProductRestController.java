@@ -92,7 +92,10 @@ public class ProductRestController extends BaseRestController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (NotFoundException e) {
 			return new ResponseEntity<>(response.build(HttpStatus.NOT_FOUND, e, e.getMessage()), HttpStatus.NOT_FOUND);
-		}
+		} catch (FoundException e) {
+			return new ResponseEntity<>(response.build(HttpStatus.FOUND, e, e.getMessage()), HttpStatus.FOUND);
+		} 
+		
 	}
 	
 	@DeleteMapping(value = "/{id}")
