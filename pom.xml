@@ -65,7 +65,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -75,6 +75,18 @@
 	</dependencies>
 	<profiles>
 		<!-- Perfiles de ejecución -->
+		<profile>
+			<id>cli1</id>
+			<properties>
+				<spring.profiles.active>cli1</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>cli2</id>
+			<properties>
+				<spring.profiles.active>cli2</spring.profiles.active>
+			</properties>
+		</profile>
 		<profile>
 			<id>mysqldev</id>
 			<properties>
@@ -95,9 +107,9 @@
 			</properties>
 
 		</profile>
-		
-		
-				<!-- Perfiles de empaquetado -->
+
+
+		<!-- Perfiles de empaquetado -->
 		<profile>
 			<id>war-build</id>
 			<properties>

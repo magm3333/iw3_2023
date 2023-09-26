@@ -37,7 +37,7 @@ public class ProductBusiness implements IProductBusiness {
 	public Product load(String product) throws NotFoundException, BusinessException {
 		Optional<Product> r;
 		try {
-			r=productDAO.findByProduct(product);
+			r=productDAO.findOneByProduct(product);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw BusinessException.builder().ex(e).build();
