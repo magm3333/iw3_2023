@@ -1,5 +1,7 @@
 package ar.edu.iua.iw3.backend;
 
+import java.util.TimeZone;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -26,15 +28,24 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 	@Value("${spring.profiles.active:sinperfil}")
 	private String profile;
 	
-	@Autowired
-	private ProductCli2Respository cli2DAO;
+//	@Autowired
+//	private ProductCli2Respository cli2DAO;
 	
+	@Value("${spring.jackson.time-zone:-}")
+	private String backendTimezone;
 	
+		
 	@Override
 	public void run(String... args) throws Exception {
-		log.info("Perfil activo {}",profile);
+		String tzId = backendTimezone.equals("-") ?   TimeZone.getDefault().getID() : backendTimezone;
+		TimeZone.setDefault(TimeZone.getTimeZone(tzId));
 		
-		cli2DAO.findAll();
+		log.info("-------------------------------------------------------------------------------------------------------------------");
+		log.info("- Initial TimeZone: {} ({})", TimeZone.getDefault().getDisplayName(), TimeZone.getDefault().getID());
+		log.info("- Perfil activo {}",profile);
+		log.info("-------------------------------------------------------------------------------------------------------------------");
+		
+//		cli2DAO.findAll();
 		
 		/*
 		try {

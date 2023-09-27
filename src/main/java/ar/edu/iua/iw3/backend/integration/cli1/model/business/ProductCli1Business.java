@@ -1,6 +1,5 @@
 package ar.edu.iua.iw3.backend.integration.cli1.model.business;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -8,12 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ar.edu.iua.iw3.backend.business.BusinessException;
 import ar.edu.iua.iw3.backend.business.FoundException;
+import ar.edu.iua.iw3.backend.business.ICategoryBusiness;
 import ar.edu.iua.iw3.backend.business.IProductBusiness;
 import ar.edu.iua.iw3.backend.business.NotFoundException;
 import ar.edu.iua.iw3.backend.integration.cli1.model.ProductCli1;
+import ar.edu.iua.iw3.backend.integration.cli1.model.ProductCli1JsonDeserializer;
 import ar.edu.iua.iw3.backend.integration.cli1.model.persistence.ProductCli1Respository;
+import ar.edu.iua.iw3.backend.util.JsonUtiles;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -65,7 +70,6 @@ public class ProductCli1Business implements IProductCli1Business {
 			throw FoundException.builder().message("Se encontró el Producto código=" + product.getCodCli1()).build();
 		}
 
-
 		try {
 			return productDAO.save(product);
 		} catch (Exception e) {
@@ -74,5 +78,23 @@ public class ProductCli1Business implements IProductCli1Business {
 		}
 	}
 
-}
+	@Autowired(required = false)
+	private ICategoryBusiness categoryBusiness;
 
+	@Override
+	public ProductCli1 addExternal(String json) throws FoundException, BusinessException {
+		ObjectMapper mapper = JsonUtiles.getObjectMapper(ProductCli1.class,
+				new ProductCli1JsonDeserializer(ProductCli1.class, categoryBusiness), null);
+		ProductCli1 product = null;
+		try {
+			product = mapper.readValue(json, ProductCli1.class);
+		} catch (JsonProcessingException e) {
+			log.error(e.getMessage(), e);
+			throw BusinessException.builder().ex(e).build();
+		}
+
+		return add(product);
+
+	}
+
+}
