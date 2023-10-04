@@ -13,7 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		@ComponentScan.Filter(type = FilterType.REGEX, pattern = "ar\\.edu\\.iua\\.iw3\\.backend\\.integration\\.cli2\\..*") })
 
 //Entidades
-@EntityScan(basePackages = { "ar.edu.iua.iw3.backend.model", "ar.edu.iua.iw3.backend.auth" })
+@EntityScan(basePackages = { "ar.edu.iua.iw3.backend.model", 
+		"ar.edu.iua.iw3.backend.auth" })
 
 @Profile("mysqlprod")
 public class MysqlprodScanConfig {

@@ -9,7 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import ar.edu.iua.iw3.backend.integration.cli2.model.persistence.ProductCli2Respository;
+import ar.edu.iua.iw3.backend.model.persistence.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
@@ -28,13 +28,17 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 	@Value("${spring.profiles.active:sinperfil}")
 	private String profile;
 	
-//	@Autowired
-//	private ProductCli2Respository cli2DAO;
+	//@Autowired
+	//private ProductCli2Respository cli2DAO;
 	
 	@Value("${spring.jackson.time-zone:-}")
 	private String backendTimezone;
-	
-		
+	//@Autowired
+	//private IProductCli2Business productCli2Business;
+
+	@Autowired
+	private ProductRepository productDAO;
+
 	@Override
 	public void run(String... args) throws Exception {
 		String tzId = backendTimezone.equals("-") ?   TimeZone.getDefault().getID() : backendTimezone;
@@ -45,8 +49,22 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 		log.info("- Perfil activo {}",profile);
 		log.info("-------------------------------------------------------------------------------------------------------------------");
 		
-//		cli2DAO.findAll();
+		log.info("Cantidad de productos de la categoría id=1: {}", productDAO.countProductsByCategory(1));
+		log.info("Set stock=true producto id que no existe, resultado={}", productDAO.setStock(true, 333));
+
 		
+		
+		/*
+		log.info("Default -------------------------------------------------------------------------------------------------------");
+		productCli2Business.listExpired(new Date());
+		
+		log.info("Customizada ---------------------------------------------------------------------------------------------------");
+		productCli2Business.listSlim();
+		*/
+		
+		//cli2DAO.findAll();
+		//System.out.println("---------------------------------------------------");
+		//cli2DAO.findByOrderByPriceDesc();
 		/*
 		try {
 			Product p = productBusiness.load(1);

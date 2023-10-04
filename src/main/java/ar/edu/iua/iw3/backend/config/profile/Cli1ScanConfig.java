@@ -21,7 +21,7 @@ excludeFilters = {
 //Entidades
 @EntityScan(basePackages = { 
 		"ar.edu.iua.iw3.backend.model", 
-		"ar.edu.iua.iw3.auth", 
+		"ar.edu.iua.iw3.backend.auth", 
 		"ar.edu.iua.iw3.backend.integration.cli1.model" 
 },
 basePackageClasses = {
