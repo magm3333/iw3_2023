@@ -78,8 +78,8 @@ public class User implements UserDetails {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "userroles", joinColumns = {
-			@JoinColumn(name = "id_user", referencedColumnName = "id_user") }, inverseJoinColumns = {
-					@JoinColumn(name = "id_role", referencedColumnName = "id") })
+			@JoinColumn(name = "idUser", referencedColumnName = "idUser") }, inverseJoinColumns = {
+					@JoinColumn(name = "idRole", referencedColumnName = "id") })
 	private Set<Role> roles;
 
 	@Transient

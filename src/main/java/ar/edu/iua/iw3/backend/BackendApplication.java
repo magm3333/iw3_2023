@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import ar.edu.iua.iw3.backend.model.persistence.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,14 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 	//@Autowired
 	//private IProductCli2Business productCli2Business;
 
-	@Autowired
-	private ProductRepository productDAO;
+	//@Autowired
+	//private ProductRepository productDAO;
+	
 
+
+	//@Autowired
+	//private PasswordEncoder pEncoder;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		String tzId = backendTimezone.equals("-") ?   TimeZone.getDefault().getID() : backendTimezone;
@@ -49,10 +55,12 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 		log.info("- Perfil activo {}",profile);
 		log.info("-------------------------------------------------------------------------------------------------------------------");
 		
-		log.info("Cantidad de productos de la categoría id=1: {}", productDAO.countProductsByCategory(1));
-		log.info("Set stock=true producto id que no existe, resultado={}", productDAO.setStock(true, 333));
+		//log.info("Cantidad de productos de la categoría id=1: {}", productDAO.countProductsByCategory(1));
+		//log.info("Set stock=true producto id que no existe, resultado={}", productDAO.setStock(true, 333));
 
-		
+	
+		//log.info("admin123={}",pEncoder.encode("admin123"));
+		//log.info("user123={}",pEncoder.encode("user123"));
 		
 		/*
 		log.info("Default -------------------------------------------------------------------------------------------------------");
