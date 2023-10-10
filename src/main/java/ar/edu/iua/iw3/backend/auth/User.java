@@ -119,14 +119,17 @@ public class User implements UserDetails {
 }
 
 /***
+ * Agregar a User los atributos:
  * name
  * lastname
  * phoneList (investiguen!!!!!)
  * fullName (Ojo)
  * 
- * --- Agregar a los caims del token: name y lastname
+ * --- Agregar a los claims del token JWT: name y lastname
  * 
  * El token debe expirar por User
+ * 
+ * En el filtro de JWT no debe dar un error cuando se trata del login, ya que en ese caso no hay que controlar ninguna cabecera
  * 
  */
 
