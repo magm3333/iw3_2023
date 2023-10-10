@@ -117,3 +117,17 @@ public class User implements UserDetails {
 	}
 
 }
+
+/***
+ * name
+ * lastname
+ * phoneList (investiguen!!!!!)
+ * fullName (Ojo)
+ * 
+ * --- Agregar a los caims del token: name y lastname
+ * 
+ * El token debe expirar por User
+ * 
+ */
+
+
