@@ -2,6 +2,7 @@ package ar.edu.iua.iw3.backend.auth;
 
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,15 @@ public class UserBusiness implements IUserBusiness {
 	@Autowired
 	private UserRepository userDAO;
 
-
+	@Override
+	public List<User> list() throws BusinessException {
+		try {
+			return userDAO.findAll(); 
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw BusinessException.builder().ex(e).build();
+		}
+	}
 
 	@Override
 	public User load(String usernameOrEmail) throws NotFoundException, BusinessException {
@@ -73,5 +82,7 @@ public class UserBusiness implements IUserBusiness {
 			throw BusinessException.builder().ex(e).build();
 		}
 	}
+
+
 
 }

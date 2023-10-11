@@ -3,7 +3,9 @@ package ar.edu.iua.iw3.backend.auth.filters;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -22,6 +24,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import ar.edu.iua.iw3.backend.auth.Role;
 import ar.edu.iua.iw3.backend.auth.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,11 +75,15 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			log.trace("Custom JWT Version: " + jwt.getClaim("version").asString());
 
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+			Set<Role> roles = new HashSet<Role>();
+
 			try {
 				@SuppressWarnings("unchecked")
 				List<String> rolesStr = (List<String>) jwt.getClaim("roles").as(List.class);
 				authorities = rolesStr.stream().map(role -> new SimpleGrantedAuthority(role))
 						.collect(Collectors.toList());
+				roles = rolesStr.stream().map(role -> new Role(role, 0, role)).collect(Collectors.toSet());
+
 			} catch (Exception e) {
 			}
 
@@ -84,7 +91,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 			if (username != null) {
 				User user=new User();
+				user.setIdUser(jwt.getClaim("internalId").asLong());
 				user.setUsername(username);
+				user.setRoles(roles);
 				user.setEmail(jwt.getClaim("email").asString());
 				return new UsernamePasswordAuthenticationToken(user, null, authorities);
 			}
