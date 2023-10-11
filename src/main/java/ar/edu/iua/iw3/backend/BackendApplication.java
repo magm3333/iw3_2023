@@ -8,9 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import ar.edu.iua.iw3.backend.model.persistence.ProductRepository;
+import ar.edu.iua.iw3.backend.util.EmailBusiness;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
@@ -45,8 +44,15 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 	//@Autowired
 	//private PasswordEncoder pEncoder;
 	
+	@Autowired
+	private EmailBusiness emailBusiness;
+
+	
 	@Override
 	public void run(String... args) throws Exception {
+		
+		emailBusiness.sendSimpleMessage("magm@iua.edu.ar", "Mail de prueba", "Prueba perfil activo="+profile);
+		
 		String tzId = backendTimezone.equals("-") ?   TimeZone.getDefault().getID() : backendTimezone;
 		TimeZone.setDefault(TimeZone.getTimeZone(tzId));
 		
