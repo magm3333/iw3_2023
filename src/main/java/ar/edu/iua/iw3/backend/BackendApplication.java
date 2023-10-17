@@ -44,14 +44,14 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 	//@Autowired
 	//private PasswordEncoder pEncoder;
 	
-	@Autowired
-	private EmailBusiness emailBusiness;
+	//@Autowired
+	//private EmailBusiness emailBusiness;
 
 	
 	@Override
 	public void run(String... args) throws Exception {
 		
-		emailBusiness.sendSimpleMessage("magm@iua.edu.ar", "Mail de prueba", "Prueba perfil activo="+profile);
+		//emailBusiness.sendSimpleMessage("magm@iua.edu.ar", "Mail de prueba", "Prueba perfil activo="+profile);
 		
 		String tzId = backendTimezone.equals("-") ?   TimeZone.getDefault().getID() : backendTimezone;
 		TimeZone.setDefault(TimeZone.getTimeZone(tzId));

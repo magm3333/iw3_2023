@@ -48,6 +48,7 @@ public class SecurityConfiguration {
 	}
 
 	
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// CORS: https://developer.mozilla.org/es/docs/Web/HTTP/CORS
@@ -55,7 +56,7 @@ public class SecurityConfiguration {
 		http.cors().and().csrf().disable()
 		.authorizeRequests().antMatchers(HttpMethod.POST, Constants.URL_LOGIN).permitAll()
 		.anyRequest().authenticated()
-		.and()
+		.and().httpBasic().and()
 		.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);		
 		

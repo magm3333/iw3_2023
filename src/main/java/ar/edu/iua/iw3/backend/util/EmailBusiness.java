@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class EmailBusiness {
-	@Autowired
+	@Autowired(required = false)
 	private JavaMailSender emailSender;
 
 	public void sendSimpleMessage(String to, String subject, String text) {
