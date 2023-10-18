@@ -22,6 +22,19 @@ import ar.edu.iua.iw3.backend.business.NotFoundException;
 import ar.edu.iua.iw3.backend.model.Category;
 import ar.edu.iua.iw3.backend.model.Product;
 import ar.edu.iua.iw3.backend.util.IStandartResponseBusiness;
+import ar.edu.iua.iw3.backend.util.StandartResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(description = "API Servicios relacionados con Productos", name = "Product")
+@SecurityRequirement(name = "Bearer Authentication")
 
 @RestController
 @RequestMapping(Constants.URL_PRODUCTS)
@@ -42,7 +55,8 @@ public class ProductRestController extends BaseRestController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@GetMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> load(@PathVariable("id") long id) {
 		try {
 			return new ResponseEntity<>(productBusiness.load(id), HttpStatus.OK);
@@ -53,8 +67,8 @@ public class ProductRestController extends BaseRestController {
 			return new ResponseEntity<>(response.build(HttpStatus.NOT_FOUND, e, e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@GetMapping(value="/by-name/{product}", produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(value = "/by-name/{product}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> load(@PathVariable("product") String product) {
 		try {
 			return new ResponseEntity<>(productBusiness.load(product), HttpStatus.OK);
@@ -67,7 +81,6 @@ public class ProductRestController extends BaseRestController {
 
 	}
 
-	
 	@PostMapping(value = "")
 	public ResponseEntity<?> add(@RequestBody Product product) {
 		try {
@@ -83,7 +96,6 @@ public class ProductRestController extends BaseRestController {
 		}
 	}
 
-
 	@PutMapping(value = "")
 	public ResponseEntity<?> update(@RequestBody Product product) {
 		try {
@@ -96,10 +108,10 @@ public class ProductRestController extends BaseRestController {
 			return new ResponseEntity<>(response.build(HttpStatus.NOT_FOUND, e, e.getMessage()), HttpStatus.NOT_FOUND);
 		} catch (FoundException e) {
 			return new ResponseEntity<>(response.build(HttpStatus.FOUND, e, e.getMessage()), HttpStatus.FOUND);
-		} 
-		
+		}
+
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") long id) {
 		try {
@@ -112,7 +124,7 @@ public class ProductRestController extends BaseRestController {
 			return new ResponseEntity<>(response.build(HttpStatus.NOT_FOUND, e, e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	// Categorías
 
 	@Autowired
@@ -128,6 +140,17 @@ public class ProductRestController extends BaseRestController {
 		}
 	}
 
+	@Operation(operationId = "load-category", summary = "Este servicio permite cargar una categoría por su id.")
+	@Parameter(in = ParameterIn.PATH, name = "id", schema = @Schema(type = "integer"), required = true, description = "Identificador de la categoría.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Devuelve una Categoría.", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Category.class)) }),
+			@ApiResponse(responseCode = "500", description = "Error interno", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = StandartResponse.class)) }),
+			@ApiResponse(responseCode = "404", description = "No se encuentra la categoría para el identificador informado", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = StandartResponse.class)) })
+
+	})
 	@GetMapping(value = "/categories/{id}")
 	public ResponseEntity<?> loadCategory(@PathVariable("id") long id) {
 		try {
@@ -168,6 +191,7 @@ public class ProductRestController extends BaseRestController {
 		}
 	}
 
+
 	@DeleteMapping(value = "/categories/{id}")
 	public ResponseEntity<?> deleteCategory(@PathVariable("id") long id) {
 		try {
@@ -181,4 +205,3 @@ public class ProductRestController extends BaseRestController {
 		}
 	}
 }
-

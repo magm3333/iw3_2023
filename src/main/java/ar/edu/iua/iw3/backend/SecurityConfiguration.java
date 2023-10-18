@@ -55,6 +55,11 @@ public class SecurityConfiguration {
 		// CSRF: https://developer.mozilla.org/es/docs/Glossary/CSRF
 		http.cors().and().csrf().disable()
 		.authorizeRequests().antMatchers(HttpMethod.POST, Constants.URL_LOGIN).permitAll()
+		
+		.antMatchers("/v3/api-docs/**").permitAll()
+		.antMatchers("/swagger-ui.html").permitAll()
+		.antMatchers("/swagger-ui/**").permitAll()
+		
 		.anyRequest().authenticated()
 		.and().httpBasic().and()
 		.addFilter(new JWTAuthorizationFilter(authenticationManager()))
