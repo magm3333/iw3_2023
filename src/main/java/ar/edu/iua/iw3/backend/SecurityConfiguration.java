@@ -60,6 +60,8 @@ public class SecurityConfiguration {
 		.antMatchers("/swagger-ui.html").permitAll()
 		.antMatchers("/swagger-ui/**").permitAll()
 		
+		.antMatchers("/ui/**").permitAll()
+		
 		.anyRequest().authenticated()
 		.and().httpBasic().and()
 		.addFilter(new JWTAuthorizationFilter(authenticationManager()))
