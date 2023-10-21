@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>Chat WebSocket</title>
+        <script src="resources/js/sockjs.min.js"></script>
+        <script src="resources/js/stomp.js"></script>
+        <script src="resources/js/Chart.bundle.min.js"></script>
+        <script type="text/javascript">
+            let stompClient = null;
+            
+			let myChart;
+            
+            function connect() {
+                let socket = new SockJS(`/demo/graph`);
+                stompClient = Stomp.over(socket);  
+                stompClient.connect({},function(frame) {
+					createChart();
+                    console.log('Connected: ' + frame);
+                    stompClient.subscribe('/topic/graph/data', function(message) {
+                        console.log(message.body);
+                        updateChart(JSON.parse(message.body));
+                    });
+                });
+            }
+            function updateChart(data) {
+				let labels=[];
+                let values=[];
+                data.forEach( o=> { 
+					labels.push(o.label);
+					values.push(o.value);							
+				});
+                myChart.data.labels=labels;
+                myChart.data.datasets[0].data = values;
+                myChart.update();
+			}
+			
+            function createChart() {
+             	let ctx = document.getElementById('myChart').getContext('2d');
+				myChart = new Chart(ctx, {
+				    type: 'bar',
+				    data: {
+				        labels: [],
+				        datasets: [{
+				            label: 'Costos',
+				            data: [],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero: true
+				                }
+				            }]
+				        }
+				    }
+				});
+            }
+        </script>
+
+    </head>
+    <body onload="connect()">
+		<div style="height: 600;width: 900px;">
+		  <canvas id="myChart"></canvas>
+		</div>
+    </body>
+</html>

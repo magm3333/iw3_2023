@@ -62,6 +62,8 @@ public class SecurityConfiguration {
 		
 		.antMatchers("/ui/**").permitAll()
 		
+		.antMatchers("/demo/**").permitAll()
+		
 		.anyRequest().authenticated()
 		.and().httpBasic().and()
 		.addFilter(new JWTAuthorizationFilter(authenticationManager()))

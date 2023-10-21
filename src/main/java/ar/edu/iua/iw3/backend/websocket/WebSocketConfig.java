@@ -30,5 +30,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     	//El endpoint es el punto en común "físico" de la comunicaión
          registry.addEndpoint("/chat");
          registry.addEndpoint("/chat").withSockJS();
+         
+         registry.addEndpoint("/demo/graph");
+         registry.addEndpoint("/demo/graph").withSockJS();
     }
 }
